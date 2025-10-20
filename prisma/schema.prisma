@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Subscription info
+  isPremium   Boolean @default(false)
+  role        String  @default("user") // user, admin
+  
+  // Usage tracking
+  messageCount Int    @default(0)
+  lastResetAt  DateTime @default(now())
+  
+  // Payment requests
+  paymentRequests PaymentRequest[]
+  conversations Conversation[]
+}
+
+model PaymentRequest {
+  id          String   @id @default(cuid())
+  userId      String
+  bkashNumber String
+  transactionId String
+  amount      String
+  status      String   @default("pending") // pending, approved, rejected
+  screenshot  String?  // URL to payment screenshot
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  title     String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+}
+
+model Message {
+  id              String   @id @default(cuid())
+  role            String   // 'user' or 'assistant'
+  content         String
+  conversationId  String
+  createdAt       DateTime @default(now())
+  
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+}
