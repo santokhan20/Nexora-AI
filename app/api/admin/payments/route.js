@@ -1,8 +1,9 @@
-import { getServerSession } from 'next-auth'
+# Make absolutely sure the file is correct - REPLACE ENTIRE CONTENT:
+echo import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/[...nextauth]/route'
-import { PrismaClient } from '@prisma/client'  // ← FIXED IMPORT
+import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient()  // ← CREATE PRISMA INSTANCE
+const prisma = new PrismaClient()
 
 export async function GET(req) {
   try {
@@ -40,4 +41,50 @@ export async function GET(req) {
   }
 }
 
-// ... rest of your code
+export async function PUT(req) {
+  try {
+    const session = await getServerSession(authOptions)
+    
+    // Check if user is admin
+    const user = await prisma.user.findUnique({
+      where: { email: session?.user?.email }
+    })
+
+    if (!user || user.role !== 'admin') {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
+    }
+
+    const { paymentId, status } = await req.json()
+
+    // Update payment request status
+    const paymentRequest = await prisma.paymentRequest.update({
+      where: { id: paymentId },
+      data: { status },
+      include: { user: true }
+    })
+
+    // If approved, upgrade user to premium
+    if (status === 'approved') {
+      await prisma.user.update({
+        where: { id: paymentRequest.userId },
+        data: { isPremium: true }
+      })
+    }
+
+    return new Response(JSON.stringify({ success: true }), { status: 200 })
+
+  } catch (error) {
+    console.error('Admin update error:', error)
+    return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 })
+  }
+} > app/api/admin/payments/route.js
+
+# Verify the file content
+type app/api/admin/payments\route.js
+
+# Add and commit
+git add .
+git commit -m "FIX: correct prisma import to use @prisma/client"
+
+# Force push to overwrite everything
+git push origin master --force
