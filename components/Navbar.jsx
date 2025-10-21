@@ -2,6 +2,7 @@
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 export default function Navbar() {
   const { data: session, status } = useSession()
@@ -19,11 +20,11 @@ export default function Navbar() {
             const userData = await response.json()
             console.log('🔍 User data from API:', userData)
             setIsAdmin(userData.role === 'admin')
-            setHasCheckedAdmin(true) // Mark as checked to prevent future calls
+            setHasCheckedAdmin(true)
           }
         } catch (error) {
           console.error('Error checking admin:', error)
-          setHasCheckedAdmin(true) // Even on error, mark as checked
+          setHasCheckedAdmin(true)
         }
       }
     }
@@ -31,7 +32,6 @@ export default function Navbar() {
     checkAdmin()
   }, [session, hasCheckedAdmin])
 
-  // Use session role if available, otherwise use API check
   const sessionIsAdmin = session?.user?.role === 'admin'
   const finalIsAdmin = sessionIsAdmin || isAdmin
 
@@ -40,8 +40,15 @@ export default function Navbar() {
       <nav className="border-b border-gray-800 p-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
-            <span className="text-xl font-bold">Nexora AI</span>
+            {/* BIGGER LOADING LOGO */}
+            <Image 
+              src="/NexoraAi.png" 
+              alt="Nexora AI" 
+              width={60} 
+              height={60}
+              className="rounded-lg"
+              priority
+            />
           </div>
           <div className="text-sm text-gray-400">Loading...</div>
         </div>
@@ -53,16 +60,18 @@ export default function Navbar() {
 
   return (
     <nav className="border-b border-gray-800 p-4">
-      {/* Remove debug info for clean look */}
-      {/* <div className="text-xs bg-red-900 text-red-200 p-2 rounded mb-2 text-center">
-        Session Role: {user?.role || 'none'} | API Check: {isAdmin ? 'ADMIN' : 'NOT ADMIN'} | Show Button: {finalIsAdmin ? 'YES 👑' : 'NO'}
-      </div> */}
-
       <div className="flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
-            <span className="text-xl font-bold">Nexora AI</span>
+          <div className="flex items-center space-x-3">
+            {/* BIGGER AND CLEARER MAIN LOGO */}
+            <Image 
+              src="/NexoraAi.png" 
+              alt="Nexora AI" 
+              width={200} 
+              height={60}
+              className="h-12 w-auto"
+              priority
+            />
           </div>
           
           <div className="flex space-x-2">
@@ -73,7 +82,6 @@ export default function Navbar() {
               Chat
             </button>
             
-            {/* Admin Panel Button - Only for admins */}
             {finalIsAdmin && (
               <button 
                 onClick={() => router.push('/admin')}
