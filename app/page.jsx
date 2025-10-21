@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
+import Image from 'next/image'  // ← ADD THIS IMPORT
 
 export default async function Home() {
   const session = await getServerSession()
@@ -14,10 +15,15 @@ export default async function Home() {
     <main className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
       {/* Navigation */}
       <nav className="flex justify-between items-center p-6 border-b border-gray-800">
-        <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
-          <span className="text-xl font-bold">Nexora</span>
-        </div>
+        <Link href="/" className="flex items-center space-x-2">
+          <Image 
+            src="/NexoraAi.png" 
+            alt="Nexora AI" 
+            width={120} 
+            height={40}
+            className="h-8 w-auto"
+          />
+        </Link>
         
         <div className="flex items-center space-x-4">
           <Link href="/auth/signin" className="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors">
@@ -29,10 +35,10 @@ export default async function Home() {
       {/* Hero Section */}
       <div className="max-w-6xl mx-auto px-6 py-20 text-center">
         <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          Think Smarter with AI
+          Think Smarter with Nexora AI
         </h1>
         <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-          Experience lightning-fast AI conversations powered by Groq. 
+          Experience lightning-fast AI conversations powered by Nexora. 
           Chat, create, and collaborate with the most advanced language models.
         </p>
         
@@ -50,7 +56,7 @@ export default async function Home() {
           <div className="p-6 bg-gray-800/50 rounded-xl">
             <div className="w-12 h-12 bg-blue-500 rounded-lg mb-4"></div>
             <h3 className="text-xl font-semibold mb-2">Lightning Fast</h3>
-            <p className="text-gray-400">Groq-powered responses in milliseconds</p>
+            <p className="text-gray-400">Nexora-powered responses in milliseconds</p>
           </div>
           <div className="p-6 bg-gray-800/50 rounded-xl">
             <div className="w-12 h-12 bg-green-500 rounded-lg mb-4"></div>
