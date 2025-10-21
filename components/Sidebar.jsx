@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useSession, signOut } from 'next-auth/react'
 import SupportModal from './SupportModal'
 import PaymentModal from './PaymentModal'
+import Image from 'next/image'  // ← ADD THIS IMPORT
 
 export default function Sidebar() {
   const [conversations, setConversations] = useState([])
@@ -33,8 +34,15 @@ export default function Sidebar() {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white font-bold text-lg">N</span>
+            {/* REPLACED THE "N" WITH LOGO */}
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg">
+              <Image 
+                src="/NexoraAi.png" 
+                alt="Nexora AI" 
+                width={40} 
+                height={40}
+                className="rounded-xl"
+              />
             </div>
             <div>
               <h1 className="text-lg font-bold text-white">Nexora AI</h1>
