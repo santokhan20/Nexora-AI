@@ -2,6 +2,7 @@
 import { signIn, getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 
 export default function SignIn() {
   const router = useRouter()
@@ -31,8 +32,15 @@ export default function SignIn() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black flex items-center justify-center p-4">
       <div className="bg-gray-800 rounded-2xl p-8 w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-            <span className="text-white text-2xl font-bold">N</span>
+          {/* BIGGER LOGO */}
+          <div className="mx-auto mb-6 flex items-center justify-center">
+            <Image 
+              src="/NexoraAi.png" 
+              alt="Nexora AI" 
+              width={96}  // Increased from 64
+              height={96} // Increased from 64
+              className="rounded-2xl"
+            />
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Welcome to Nexora AI</h1>
           <p className="text-gray-400">Sign in to start chatting with AI</p>
