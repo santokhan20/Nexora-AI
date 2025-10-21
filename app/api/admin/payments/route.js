@@ -1,5 +1,4 @@
-# Make absolutely sure the file is correct - REPLACE ENTIRE CONTENT:
-echo import { getServerSession } from 'next-auth'
+import { getServerSession } from 'next-auth'
 import { authOptions } from '../../auth/[...nextauth]/route'
 import { PrismaClient } from '@prisma/client'
 
@@ -77,14 +76,4 @@ export async function PUT(req) {
     console.error('Admin update error:', error)
     return new Response(JSON.stringify({ error: 'Internal server error' }), { status: 500 })
   }
-} > app/api/admin/payments/route.js
-
-# Verify the file content
-type app/api/admin/payments\route.js
-
-# Add and commit
-git add .
-git commit -m "FIX: correct prisma import to use @prisma/client"
-
-# Force push to overwrite everything
-git push origin master --force
+}
