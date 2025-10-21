@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import Image from 'next/image'  // ← ADD THIS IMPORT
+import Image from 'next/image'
 
 export default async function Home() {
   const session = await getServerSession()
@@ -15,14 +15,15 @@ export default async function Home() {
     <main className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white">
       {/* Navigation */}
       <nav className="flex justify-between items-center p-6 border-b border-gray-800">
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-3">
           <Image 
             src="/NexoraAi.png" 
             alt="Nexora AI" 
-            width={120} 
-            height={40}
-            className="h-8 w-auto"
+            width={40}  // Smaller logo
+            height={40} // Smaller logo
+            className="h-10 w-10"  // Smaller logo
           />
+          <span className="text-xl font-bold">Nexora AI</span>
         </Link>
         
         <div className="flex items-center space-x-4">
@@ -38,7 +39,7 @@ export default async function Home() {
           Think Smarter with Nexora AI
         </h1>
         <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-          Experience lightning-fast AI conversations powered by Nexora. 
+          Experience lightning-fast AI conversations powered by Groq. 
           Chat, create, and collaborate with the most advanced language models.
         </p>
         
